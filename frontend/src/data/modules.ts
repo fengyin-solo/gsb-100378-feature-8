@@ -78,6 +78,7 @@ export const MODULES: ModuleMeta[] = [
     actions: ["报修设备", "确认修复", "停用设备"],
     actionTargets: {"报修设备": "待维修", "确认修复": "正常运行", "停用设备": "已停用"},
     metrics: ["设备总数", "正常运行数", "待维修数"],
+    adminActions: ["停用设备"],
   },
   {
     key: "compilation",

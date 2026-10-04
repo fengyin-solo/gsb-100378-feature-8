@@ -11,7 +11,16 @@
     <main class="app-main">
       <header class="app-head">
         <span class="head-desc">面向水文监测站点运行、水位流量雨量数据采集、遥测设备维护与数据整编发布的水文站网管理平台。</span>
-        <span class="head-user">当前值班：{{ store.operator }} · {{ store.shiftLabel }}</span>
+        <span class="head-user">
+          当前值班：{{ store.operator }} · {{ store.shiftLabel }}
+          <label class="head-role">
+            角色
+            <select v-model="store.role">
+              <option value="值班员">值班员</option>
+              <option value="管理员">管理员</option>
+            </select>
+          </label>
+        </span>
       </header>
       <RouterView />
     </main>

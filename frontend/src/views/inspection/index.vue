@@ -55,6 +55,7 @@
             >
               {{ action }}
             </button>
+            <button class="link" type="button" @click="runRepairCheck(row)">报修核查</button>
           </td>
         </tr>
         <tr v-if="!rows.length">
@@ -65,6 +66,7 @@
 
     <footer class="page-foot">
       <span>共 {{ total }} 条巡检记录记录</span>
+      <span v-if="repairCheckMessage" class="notice-text">{{ repairCheckMessage }}</span>
       <span v-if="errorMessage" class="error-text">{{ errorMessage }}</span>
     </footer>
   </section>
@@ -74,6 +76,7 @@
 import { computed, onMounted, ref } from 'vue'
 
 import {
+  checkSiteRepairs,
   downloadEntries,
   listEntries,
   moduleMeta,
@@ -90,6 +93,7 @@ const stats = [{"label": "本月巡检次数", "value": 0}, {"label": "已巡检
 const rows = ref<EntryRow[]>([])
 const total = ref(0)
 const errorMessage = ref('')
+const repairCheckMessage = ref('')
 const filters = ref<Record<string, string>>({})
 const filterFields = columns.slice(0, 3)
 const statusSummary = computed(() =>
@@ -120,6 +124,12 @@ function runAction(action: string, row: EntryRow) {
     return
   }
   reload()
+}
+
+function runRepairCheck(row: EntryRow) {
+  errorMessage.value = ''
+  const result = checkSiteRepairs(String(row['站点编号'] ?? ''))
+  repairCheckMessage.value = result.message
 }
 
 function reload() {
