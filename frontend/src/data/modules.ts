@@ -77,6 +77,8 @@ export const MODULES: ModuleMeta[] = [
     statuses: ["正常运行", "信号异常", "低电量", "待维修", "已停用"],
     actions: ["报修设备", "确认修复", "停用设备"],
     actionTargets: {"报修设备": "待维修", "确认修复": "正常运行", "停用设备": "已停用"},
+    // 停用属于高风险动作：值班员无此权限，只有设备管理员可以停用。
+    actionPermissions: {"停用设备": "device:deactivate"},
     metrics: ["设备总数", "正常运行数", "待维修数"],
   },
   {
@@ -99,6 +101,7 @@ export const MODULES: ModuleMeta[] = [
     statuses: ["草稿", "已生效", "已调整", "已停用"],
     actions: ["发布生效", "调整阈值", "停用配置"],
     actionTargets: {"发布生效": "已生效", "调整阈值": "已调整", "停用配置": "已停用"},
+    actionPermissions: {"停用配置": "warning:deactivate"},
     metrics: ["配置总数", "已生效数", "本月调整数"],
   },
   {
@@ -132,6 +135,7 @@ export const MODULES: ModuleMeta[] = [
     statuses: ["正常运行", "需检修", "检修中", "已停用"],
     actions: ["安排检修", "完成检修", "停用缆道"],
     actionTargets: {"安排检修": "需检修", "完成检修": "正常运行", "停用缆道": "已停用"},
+    actionPermissions: {"停用缆道": "device:deactivate"},
     metrics: ["缆道总数", "正常运行数", "需检修数"],
   },
   {
@@ -185,8 +189,9 @@ export const MODULES: ModuleMeta[] = [
     desc: "维护巡检记录，围绕记录编号、站点编号、巡检日期、巡检人员做登记、筛选与状态流转。",
     fields: ["记录编号", "站点编号", "巡检日期", "巡检人员", "检查项目", "发现问题", "处理措施", "巡检状态"],
     statuses: ["待巡检", "已巡检", "发现故障", "已处置"],
-    actions: ["完成巡检", "报告故障", "确认处置"],
+    actions: ["完成巡检", "报告故障", "确认处置", "报修核查"],
     actionTargets: {"完成巡检": "已巡检", "报告故障": "发现故障", "确认处置": "已处置"},
+    // 报修核查是只读动作：不改变巡检状态，只回查同站点待维修的遥测设备。
     metrics: ["本月巡检次数", "已巡检站点", "待处置故障"],
   },
   {
